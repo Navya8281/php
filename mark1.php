@@ -8,9 +8,9 @@
 
 #regform{
 
-border: 5px outset blue;
+border: 5px outset purple;
 
-background-color: white;
+background-color: plum;
 
 text-align: center;
 
@@ -19,17 +19,35 @@ width: 600;
 height: 700;
 
 margin:auto;
+border-radius: 7px;
+font-family: cursive;
 
 }
 
-table,tr,td,th{
+button{
+	border-radius: 15px;
 
-border: 1px solid black;
+background-color: solid black;
 
 }
 
 </style>
-
+<script>
+function validate(){
+var a=document.forms["marksForm"]["name"].value;
+var b=document.forms["marksForm"]["rollno"].value;
+let regex=/^[a-zA-Z]+$/;
+if(regex.test(a)==false){
+alert("Name must only contain letters");
+return false;
+}
+var phoneno = /^\d{10}$/;
+if (phoneno.test(b)==false) {
+alert("it should have 10 digits");
+return false;
+}
+}
+</script>
 </head>
 
 <body>
@@ -37,21 +55,21 @@ border: 1px solid black;
 <div id="regform">
 
 <h1><i><b> Muthoot Institute of Technology and Science</h1></i></b>
-<form name="marksForm" action="mark.php" method="post">
+<form name="marksForm"  method="post" onsubmit="return validate()">
 
 <label for="name">Full Name:</label>
 
-<input type="text" id="name" name="fname" > <br><br>
+<input type="text" id="name" name="fname" required> <br><br>
 
 <label for="roll">Roll No :</label>
 
-<input type="text" id="roll" name="rollno" >
+<input type="text" id="roll" name="rollno" required>
 
 <h4>Marks </h4>
 
 <label for="ds">DS Marks :</label>
 
-<input type="text" id="ds" name="marksDS" ><br><br>
+<input type="text" id="ds" name="marksDS" required><br><br>
 
 <label for="ase">ASE Marks:</label>
 
@@ -78,6 +96,7 @@ die("Connection failed: " . mysqli_connect_error());
 
 }
 
+
 echo "Connected successfully<br>";
 if (isset($_POST['submit']))
 
@@ -93,7 +112,9 @@ $marksASE = $_POST['marksASE'];
 
 $marksTot = $_POST['marksTot'];
 
+echo "rollno:".$rollno.'<br>';
 
+echo "name:".$name.'<br>';
 //Connecting to database and inserting the values
 
 $sql="insert into marks values('$name', '$rollno', $marksDS, $marksASE,
@@ -111,35 +132,6 @@ echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 
 }
 
-//Connecting to database and Searching for tuples of given roll no
-$rollno = $_POST['rollno'];
-
-
-
-$sqll = "select * from marks where rollno='$rollno'";
-
-$result = mysqli_query($conn, $sqll);
-
-if (mysqli_num_rows($result) > 0) {
-
-while($row = mysqli_fetch_assoc($result))
-
-{
-
-echo "rollno: " . $row["rollno"]."<br>" ."  Name: " . $row["name"]. " " .
-"<br>";
-
-}
-
-
-
-}
-else {
-
-echo "No records found";
-}
-
-mysqli_close($conn);
 
 ?>
 

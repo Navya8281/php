@@ -64,17 +64,7 @@ border: 1px solid black;
 <input type="submit" name="submit" value="Submit"><br><br>
 
 </form>
-<h4>Search Student Data</h4>
 
-<form name="searchForm" action="mark.php" method="post">
-
-<label for="tot">Roll No::</label>
-
-<input type="text" name="roll" >
-
-<input type="submit" name="search" value="Search"><br><br>
-
-</form>
 
 <?php
 
@@ -88,7 +78,7 @@ die("Connection failed: " . mysqli_connect_error());
 
 }
 
-echo "Connected successfully<br>";
+echo "Connected successfully<br><br>";
 if (isset($_POST['submit']))
 
 {
@@ -103,17 +93,7 @@ $marksASE = $_POST['marksASE'];
 
 $marksTot = $_POST['marksTot'];
 
-echo " The values are: ".'<br>';
 
-echo "Name: ".$name.'<br>';
-
-echo "Roll No: ".$rollno.'<br>';
-
-echo "DS Marks: ".$marksDS.'<br>';
-
-echo "ASE Marks: ".$marksASE.'<br>';
-
-echo "Total Marks: ".$marksTot.'<br>';
 //Connecting to database and inserting the values
 
 $sql="insert into marks values('$name', '$rollno', $marksDS, $marksASE,
@@ -132,42 +112,31 @@ echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
 //Connecting to database and Searching for tuples of given roll no
+$rollno = $_POST['rollno'];
 
-if(isset($_POST['search']))
 
-{
 
-$rollno = $_POST['roll'];
+$sqll = "select * from marks where rollno='$rollno'";
 
-$sql="select * from marks where rollno='$rollno'";
+$result = mysqli_query($conn, $sqll);
 
-$res= mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
 
-$totRows = mysqli_num_rows($res);
-if($totRows==0)
-
-{ echo "No records found!"; }
-
-echo "<center><table><tr>";
-
-echo "<th>Roll No</th><th>Name</th>";
-
-echo "</tr><tr>";
-
-while($row = mysqli_fetch_assoc($res))
+while($row = mysqli_fetch_assoc($result))
 
 {
 
-echo "<td>".$row["rollno"]."</td>";
-
-echo "<td>".$row["name"]."</td>";
-
-echo "</tr>";
+echo "<br>"."rollno: " . $row["rollno"]."<br>" ."  Name: " . $row["name"]. "<br> " ."  Ds mark: " . $row["markDS"]. " <br>"."  Ase mark: " . $row["markASE"]. "<br> "."  Total mark: " . $row["marksTot"]. " ".
+"<br>";
 
 }
 
-echo "</table></center>";
 
+
+}
+else {
+
+echo "No records found";
 }
 
 mysqli_close($conn);

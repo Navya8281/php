@@ -3,6 +3,16 @@
 <head>
 
 <title>Electricity Bill</title>
+<style >
+	.box {
+  width: 200px;
+  height: 100px;
+  border: 3px solid black;
+  padding: 10px;
+  margin: 10px;
+  font-family: cursive;
+}
+</style>
 
 </head>
 
@@ -75,9 +85,10 @@ return number_format((float)$bill, 2, '.', '');
 ?>
 
 <body>
-<div id="page-wrap">
+
 
 <h1>Php - Calculate Electricity Bill</h1>
+<div class="box">
 
 <form action="" method="post" id="quiz-form">
 
@@ -87,13 +98,12 @@ return number_format((float)$bill, 2, '.', '');
 
 </form>
 
-<div>
 
 <?php echo '<br />' . $result_str; ?>
 
 </div>
 
-</div>
+
 
 </body>
 
